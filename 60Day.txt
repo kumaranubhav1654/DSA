@@ -1,3 +1,8 @@
+Headers {
+#include <bits/stdc++.h>
+using namespace std;
+}
+
 1. Two Sum
 
 class Solution {
@@ -54,4 +59,96 @@ public:
     }
 };
 
-3.
+3.Best time to buy and sell
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if(prices.size()==0)
+        return 0;
+        int min=prices[0];
+        //int max=0;
+        int profit=0;
+        for(int i=1;i!=prices.size();i++){
+          if(prices[i]<min)
+          min=prices[i];
+          else{
+              if(prices[i]-min>profit)
+              profit=prices[i]-min;
+          }
+        }
+        return profit;
+    }
+};
+
+4. Merge two sorted linked list
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+       ListNode* ans=new ListNode(0);;
+       ListNode* head=ans;
+       while((list1!=NULL) && (list2!=NULL)){    //(list1->next!=NULL) && (list2->next!=NULL) dosent work if list1/2 = []
+       if(list1->val<list2->val){
+           ans->next=new ListNode(list1->val);
+           list1=list1->next;
+           ans=ans->next;
+       }
+       else{
+           ans->next=new ListNode(list2->val);
+           list2=list2->next;
+           ans=ans->next;
+       }
+       }
+       if(list1!=NULL)
+       ans->next=list1;
+       if(list2!=NULL)
+       ans->next=list2;
+       return head->next;
+    }
+};
+
+5. Valid Palindrome
+
+class Solution {
+public:
+    bool isPalindrome(string s) {
+        char a;
+        char b;
+        int j=s.length()-1;
+        int i=0;
+        while(i<j){
+            while((i < j) && !isalnum(s[i])){      //isalnum is for Alphanumeric #include<ctype.h>
+                ++i;                              //else we have to "(s[i]>='a' && s[i]<='z' || s[i]>='A' && s[i]<='Z')" = "isalnum(s[i])"
+            }
+             while((i < j) && !isalnum(s[j])){
+                --j;
+            }
+             a=tolower(s[i]);
+             b=tolower(s[j]);
+            cout<<i<<" "<<a<<" "<<j<<" "<<b<<" ";
+            if(a!=b)
+            return false;
+            i++;
+            j--;
+        }
+
+        return true;
+    }
+};
+
+6. Invert Binary tree
+
+class Solution {
+public:
+  TreeNode* invertTree(TreeNode* root) {
+    if(root==NULL)return NULL;
+    invertTree(root->left);
+    invertTree(root->right);
+
+    TreeNode* tmp=root->right;
+    root->right=root->left;
+    root->left=tmp;
+
+    return root;
+    }
+};
