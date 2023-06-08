@@ -152,3 +152,50 @@ public:
     return root;
     }
 };
+
+7. Valid Anagram
+
+class Solution {
+public:
+    bool isAnagram(string s, string t) {
+        map<char,int>m;
+        if(s.length()!=t.length())
+        return false;
+
+        for(int i=0;i!=s.length();i++){
+           m[s[i]]++;
+           m[t[i]]--;
+           if(m[s[i]]==0)
+           m.erase(s[i]);
+           if(m[t[i]]==0)
+           m.erase(t[i]);
+        }
+        if(m.empty())
+        return true;
+        else return false;
+    }
+};
+
+8. Binary Search
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int length=nums.size()-1;
+        int end=length;
+        int start=0;
+        int mid=(start+end)/2;
+        while(nums[mid]!=target && start<end){
+           if(nums[mid]<target){
+            start=mid+1;
+           }
+           else{
+            end=mid-1;
+           }
+         mid=(start+end)/2;
+        }
+        if(nums[mid]==target)
+        return mid;
+        else return -1;
+    }
+};
