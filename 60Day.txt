@@ -199,3 +199,40 @@ public:
         else return -1;
     }
 };
+
+9. Level Order:
+
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        queue<TreeNode*>q;
+        TreeNode* tmp;
+        if(root==NULL)
+        return ans;
+        q.push(root);
+        q.push(NULL);
+        vector<int>t;
+        while(!q.empty()){
+            if(q.front()==NULL){
+            q.pop();
+            ans.push_back(t);
+            t.clear();
+            if(!q.empty())
+            q.push(NULL); 
+            }
+            else{
+            tmp = q.front();
+            q.pop();
+            t.push_back(tmp->val);
+            if(tmp->left!=NULL)
+            q.push(tmp->left);
+            if(tmp->right!=NULL)
+            q.push(tmp->right);
+         }
+        }
+   return ans;
+    }
+};
+
+
