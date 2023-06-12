@@ -235,4 +235,28 @@ public:
     }
 };
 
+9. Balanced Binary tree
+
+
+class Solution {
+public:
+    int heightTree(TreeNode* root){
+        if(root==NULL)
+        return 0;
+       return max(heightTree(root->left),heightTree(root->right))+1;
+    }
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL)
+        return true;
+        int Rh=heightTree(root->right);
+        int Lh=heightTree(root->left);
+        // cout<<abs(Rh-Lh)<<" ";
+        if(abs(Rh-Lh)>1)
+        return false;
+       if(!isBalanced(root->right) || !isBalanced(root->left))
+       return false;
+
+        return true;
+    }
+};
 
