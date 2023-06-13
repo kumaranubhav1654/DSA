@@ -281,3 +281,19 @@ int heightTree(TreeNode* root){
     }
 };
 
+O(N) solution:
+class Solution {
+public:
+    int res = 0;
+    int maxDiameter( TreeNode *root) {
+        if(root==NULL)return 0;
+        int l = maxDiameter(root->left);
+        int r = maxDiameter(root->right);
+        res = max(res, l+r+1);
+        return max(l,r)+1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        maxDiameter(root);
+        return res-1;
+    }
+};
