@@ -260,3 +260,24 @@ public:
     }
 };
 
+10.Diameter of a Binarytree
+
+class Solution {
+public:
+int heightTree(TreeNode* root){
+    if (root==NULL)
+    return 0;
+    return max(heightTree(root->left),heightTree(root->right))+1;
+}
+    int diameterOfBinaryTree(TreeNode* root) {
+        if(root==NULL)
+        return 0;
+       int leftHeight=heightTree(root->left);
+       int rightHeight=heightTree(root->right);
+       int leftDiameter= diameterOfBinaryTree(root->left);
+       int rightDiameter= diameterOfBinaryTree(root->right);  
+       int currentDiameter=leftHeight+rightHeight;
+        return max(currentDiameter,max(leftDiameter,rightDiameter));      
+    }
+};
+
