@@ -317,3 +317,72 @@ public:
       return root;
     }
 };
+
+12. Linked list cycle
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==NULL || head->next==NULL)
+        return false;
+        ListNode* slow=head;
+        ListNode* fast=head->next;
+        while(slow!=fast && fast->next!=NULL && fast->next->next!=NULL){
+         slow=slow->next;
+         fast=fast->next->next;
+         if(slow==fast)
+         break;
+        }
+        if(slow==fast)
+        return true;
+        else
+        return false;
+
+    }
+};
+
+13. First bad version
+class Solution {
+public:
+    int firstBadVersion(int n) {
+           long long int start=1;
+        if(isBadVersion(start))
+        return start;
+           long long int end=n;
+        long long int mid=n/2;
+        while(!isBadVersion(mid)||isBadVersion(mid-1)){
+         if(isBadVersion(mid))
+         end=mid;
+         else
+         start=mid+1;    
+         mid=(end+start)/2;
+        }
+        return mid;
+    }
+};
+
+14. Ransom Note
+
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        if(magazine.length()<ransomNote.length())
+        return false;
+       sort(ransomNote.begin(),ransomNote.end());
+       sort(magazine.begin(),magazine.end());
+       int j=0;
+       int i=0;
+        while(i!=ransomNote.length()&&j!=magazine.length()){
+            if(ransomNote[i]==magazine[j]){
+                i++;
+                j++;
+            }
+            else if(ransomNote[i]>magazine[j])
+            j++;
+            else
+            return false;
+        }
+        if(i==ransomNote.length())
+        return true;
+        else return false;
+    }
+};
