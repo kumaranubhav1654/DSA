@@ -386,3 +386,22 @@ public:
         else return false;
     }
 };
+
+15. Mid of linked list
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        if(head==NULL || head->next==NULL)
+        return head;
+       ListNode* mid=head;
+       ListNode* end=head;
+         while(end->next!=NULL && end->next->next!=NULL){
+          end=end->next->next;
+          mid=mid->next;
+         }
+        if(end->next==NULL)
+        return mid;
+        else
+        return mid->next;
+    }
+};
