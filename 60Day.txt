@@ -405,3 +405,38 @@ public:
         return mid->next;
     }
 };
+
+16. Longest Substring Without Repeating Characters
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.length()==0 || s.length()==1)
+        return s.length();
+        map<char,int>m;
+        int ans=0;
+        int finalAns=0;
+        int start=0;
+        for(int i=0;i!=s.length();i++){
+            if(m[s[i]]){
+                if(start<m[s[i]]){
+                  start=m[s[i]];
+                  ans=i-start+1;
+                }
+               else{
+               ans++;
+               }     
+               m[s[i]]=i+1;          
+            }
+            else{
+            m[s[i]]=i+1;
+            ans++;
+            }
+         finalAns=max(ans,finalAns);
+        // cout<<ans<<" ";
+        }
+     return finalAns;
+    }
+};
+
+17.
