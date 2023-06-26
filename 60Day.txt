@@ -484,3 +484,10 @@ public:
        return ans;
     }
 };
+
+18.class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        
+    }
+};
