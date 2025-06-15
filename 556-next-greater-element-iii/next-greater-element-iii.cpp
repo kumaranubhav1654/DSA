@@ -1,44 +1,42 @@
 class Solution {
 public:
     int nextGreaterElement(int n) {
-        map<int, int>m;
+        map<int, int>mp;
         stack<int>st;
-        int justGreater = 0, t = n, tmp = 0;
-        while(t){
-            tmp = t%10;
-            t=t/10;
-            if(st.empty())st.push(tmp);
-            else if(tmp>=st.top())st.push(tmp);
+        int justGreater = 0, tmp = n, lastDigit = 0;
+        while(tmp){
+            lastDigit = tmp%10;
+            tmp=tmp/10;
+            if(st.empty())st.push(lastDigit);
+            else if(lastDigit>=st.top())st.push(lastDigit);
             else{
-                while(!st.empty() && tmp<st.top()){
+                while(!st.empty() && lastDigit<st.top()){
                     justGreater = st.top();
                     st.pop();
                 }
                 break;
             }
-            m[tmp]++;
+            mp[lastDigit]++;
         }
 
         if(justGreater==0) return -1;
 
-        m[tmp]++;
+        mp[lastDigit]++;
         int flag = 1;
-        t = t*10+justGreater;
+        int result = tmp*10+justGreater;
 
-        for(auto i : m){
-            cout<<i.first<<endl;
-            while(i.second){
-            if(i.first==justGreater && flag){ 
+        for(auto [digit, count] : mp){
+            while(count){
+            if(digit==justGreater && flag){ 
                 flag = 0;
-                i.second--;
+                count--;
+                continue;
             }
-            else{
-            if(t>((INT_MAX-i.first)/10)) return -1;    
-            t = t*10+i.first;
-            i.second--;
-            }
+            if(result > ((INT_MAX-digit)/10)) return -1;    
+            result = result*10+digit;
+            count--;
             }
         }
-        return t;
+        return result;
     }
 };
