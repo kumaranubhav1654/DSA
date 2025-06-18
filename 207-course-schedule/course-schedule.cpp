@@ -9,7 +9,7 @@ public:
             }
             else if(path[adj[i][k]]) return true;
         }
-        path[i] = 0;  
+        path[i] = 0;  // This line is essential to backtrack correctly after exploring a node in DFS for cycle detection   in a directed graph.
         return false;
     }
     bool canFinish(int nc, vector<vector<int>>& pq) {
