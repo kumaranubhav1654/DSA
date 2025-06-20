@@ -18,7 +18,6 @@ public:
     }
 
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
-        //v<int> st;
         vector<int> ans;
         vector<int> path(numCourses, 0);
         vector<int> vis(numCourses, 0);
@@ -32,12 +31,6 @@ public:
                 if (dfs(i, adj, path, vis, ans)) return {};
             }
         }
-
-        // while (!st.empty()) {
-        //     ans.push_back(st.top());
-        //     st.pop();
-        // }
-        // reverse(ans.begin(), ans.end());
         return ans;
     }
 };
