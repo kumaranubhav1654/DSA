@@ -2,7 +2,7 @@ class Solution {
 public:
     int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
         vector<vector<pair<int, int>>> adj(n);
-        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>>pq;
+        queue<vector<int>>pq;
         vector<int> price(n, INT_MAX);
         vector<int> stp(n);
         int ans = INT_MAX;
@@ -15,14 +15,12 @@ public:
         price[src] = 0;
 
         while(!pq.empty()){
-            vector<int>info = pq.top();
+            vector<int>info = pq.front();
             pq.pop();
 
             int cost = info[0], city = info[1], stops = info[2];
             
             if(city==dst && stops<=k) ans = min(ans, cost);
-
-            if(stops>=k) continue;
 
             for(int i = 0; i!=adj[city].size(); i++){
                 auto [money, nxtcity] = adj[city][i];
