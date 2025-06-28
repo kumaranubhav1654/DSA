@@ -22,14 +22,14 @@ public:
             
             if(city==dst && stops<=k) ans = min(ans, cost);
 
+            if(stops>=k) continue;
+
             for(int i = 0; i!=adj[city].size(); i++){
                 auto [money, nxtcity] = adj[city][i];
-                //cout<<"City "<<city<<" Stops "<<stops<<" cost "<<cost<<endl;
                 if(stops<k && (price[nxtcity] > cost+money || stp[nxtcity] > stops+1)){
                     pq.push({cost+money, nxtcity, stops+1});
                     price[nxtcity]=cost+money;
                     stp[nxtcity] = stops+1;
-                    //cout<<"  Details pushed "<<nxtcity<<"  "<<stops+1<<" "<<price[nxtcity]<<endl;
                 }
             }
         }
