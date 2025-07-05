@@ -1,32 +1,24 @@
 class Solution {
 public:
-    int maxFrequency(vector<int>& A, int k) {
-        unordered_map<int, int> count;
-        for (int a : A) {
-            count[a]++;
+    int maxFrequency(vector<int>& nums, int k) {
+        set<int>st;
+        int fk = 0;
+        for(auto i: nums){
+            if(i==k) fk++;
+            st.insert(i);
         }
 
-        auto kadane = [&](int b) {
-            int res = 0, cur = 0;
-            for (int a : A) {
-                if (a == k) {
-                    cur--;
-                }
-                if (a == b) {
-                    cur++;
-                }
-                if (cur < 0) {
-                    cur = 0;
-                }
-                res = max(res, cur);
+        int maxCount = 0;
+
+        for(auto i : st){
+            int count = 0;
+            for(auto num : nums){
+                if(num==k) count--;
+                if(num==i)count++;
+                if(count < 0) count = 0;
+                maxCount=max(maxCount, count);
             }
-            return res;
-        };
-
-        int res = 0;
-        for (const auto& [b, _] : count) {
-            res = max(res, kadane(b));
         }
-        return count[k] + res;
+        return fk+maxCount;
     }
 };
