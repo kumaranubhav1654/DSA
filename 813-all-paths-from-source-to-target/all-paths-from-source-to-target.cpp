@@ -1,13 +1,17 @@
 class Solution {
 public:
     vector<vector<int>> ans;
-    void dfs(vector<vector<int>>& graph, vector<int> &tmp, int n){
+    void dfs(vector<vector<int>>& graph, vector<int>& tmp, int n) {
         int l = tmp.back();
-        if(l==n-1) ans.push_back(tmp);
-        for(int i = 0; i!=graph[l].size(); i++){
+        if (l == n - 1) {
+            ans.push_back(tmp);
+            return;
+        }
+
+        for (int i = 0; i != graph[l].size(); i++) {
             tmp.push_back(graph[l][i]);
-             dfs(graph, tmp, n);
-             tmp.pop_back();
+            dfs(graph, tmp, n);
+            tmp.pop_back();
         }
     }
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
