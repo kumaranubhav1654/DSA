@@ -1,0 +1,57 @@
+class Solution {
+  public:
+    bool bfs(int src, vector<int> &vis, vector<vector<int>> &adj){
+        queue<pair<int, int>>q;
+        vis[src] = 1;
+        q.push({-1, src});
+        
+        while(!q.empty()){
+            int parent = q.front().first, node = q.front().second;
+            q.pop();
+            for(auto neighbour : adj[node]){
+                if(!vis[neighbour]){
+                    vis[neighbour] = 1;   
+                    q.push({node, neighbour});
+                } 
+                else if(neighbour!=parent) return true;
+            }
+        }
+        return false;
+    }
+    
+    bool dfs(pair<int, int> &src => 1, vector<int> &vis, vector<vector<int>> &adj){
+         int node = src->second => 2, parent = src.first;
+         vis[node] = 1;
+         for(auto neighbour : adj[node]){
+             if(!vis[neighbour]){
+                 if(dfs({node, neighbour}, vis, adj)) return true;
+             }
+             else if(neighbour!=parent){
+                 return true;
+             }
+         }
+        return false;
+    }
+    
+    bool isCycle(int V, vector<vector<int>>& edges) {
+        
+        int m = edges.size();
+        
+        vector<vector<int>>adj(V);
+        
+        for(int i = 0; i!= m; i++){
+            int a = edges[i][0], b = edges[i][1];
+            adj[a].push_back(b);
+            adj[b].push_back(a);
+        }
+        
+        vector<int>vis(V, 0);
+        
+        for(int i = 0; i< V; i++){
+            if (!vis[i])
+            //if(bfs(i, vis, adj)) return true;
+            if(dfs({-1,i}, vis, adj)) return true;
+        }
+        return false;
+    }
+};
