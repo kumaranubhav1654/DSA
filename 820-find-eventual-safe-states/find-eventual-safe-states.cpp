@@ -1,37 +1,39 @@
 class Solution {
 public:
-    bool dfs(int node, vector<vector<int>> &adj, vector<int> &vis, vector<int> &path, vector<int> &ans){
+    vector<int> ans;
+    bool dfs(int node, vector<int> &vis, vector<int> &pathVis, vector<vector<int>>& graph, vector<int> &isSafe) {
         vis[node] = 1;
-        path[node]=1;
-        int flag = 1;
+        pathVis[node] = 1;
 
-        int a = adj[node].size();
-        for(int i = 0; i!=a; i++){
-            int n = adj[node][i];
-            if(!vis[n]){
-                if(!dfs(n, adj, vis, path, ans)) return false;
-            }
-            else if(path[n]){ 
-                flag = 0;
-                return false;
+        for (auto i : graph[node]) {
+            if (!vis[i]) {
+                if(dfs(i, vis, pathVis, graph, isSafe)) return true;
+            } else if (pathVis[i]) {
+                return true;
             }
         }
-        path[node] = 0;
-        if(flag)
-        ans.push_back(node);
-        flag = 1;
-        return true;
+        pathVis[node] = 0;
+        isSafe[node] = 1;
+        return false;
     }
     vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
-        int a = graph.size();
-        vector<int> ans;
-        vector<int> vis(a, 0);
-        vector<int> path(a, 0);
+        int n = graph.size();
+        vector<int> vis(n, 0);
+        vector<int> pathVis(n, 0);
+        vector<int> isSafe(n, 0);
 
-        for(int i = 0; i!=a; i++){
-            if(!vis[i])
-            dfs(i, graph, vis, path, ans);
+        for (int i = 0; i != n; i++) {
+            if (!vis[i]) {
+                dfs(i, vis, pathVis, graph, isSafe);
+            }
         }
+
+        for (int i = 0; i < n; i++) {
+            if (isSafe[i]) {
+                ans.push_back(i);
+            }
+        }
+
         sort(ans.begin(), ans.end());
         return ans;
     }
