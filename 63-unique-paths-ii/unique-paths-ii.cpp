@@ -7,9 +7,8 @@ public:
 
         if(dp[i][j]!=-1) return dp[i][j];
 
-        int c1, c2 = 0;
-        c2 = helper(m,n,i,j+1, dp, ob);
-        c1 = helper(m,n,i+1,j, dp, ob);
+        int c2 = helper(m,n,i,j+1, dp, ob);
+        int c1 = helper(m,n,i+1,j, dp, ob);
 
         return dp[i][j] = c1+c2;
     }
