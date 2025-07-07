@@ -1,29 +1,42 @@
 class Solution {
 public:
-    bool dfs(int i, vector<int> &vis, vector<int> &path, vector<vector<int>>& pq, vector<vector<int>> &adj, int nc){
-        for(int k = 0; k!=adj[i].size(); k++){
-            if(!vis[adj[i][k]]){
-                vis[adj[i][k]] = 1;
-                path[adj[i][k]] = 1;
-                if(dfs(adj[i][k], vis, path, pq, adj, nc)) return true;
-            }
-            else if(path[adj[i][k]]) return true;
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        int n = prerequisites.size();
+        if(!n) return true;
+        vector<vector<int>> adj(numCourses);
+
+        for(int i = 0; i!=n; i++){
+            auto a = prerequisites[i];
+            adj[a[1]].push_back(a[0]);
         }
-        path[i] = 0;  // This line is essential to backtrack correctly after exploring a node in DFS for cycle detection   in a directed graph.
-        return false;
-    }
-    bool canFinish(int nc, vector<vector<int>>& pq) {
-        vector<vector<int>> adj(nc);                                         
-        vector<int> vis(nc, 0);
 
-        for(int i = 0; i!=pq.size(); i++) adj[pq[i][0]].push_back(pq[i][1]);
+        queue<int>q;
+        vector<int>indegree(numCourses);
 
-        for(int i = 0; i!=nc; i++){
-            vector<int> path(nc, 0);
-            if(!vis[i]){
-                if (dfs(i, vis, path, pq, adj, nc)) return false;
+        for(int i = 0; i!=numCourses; i++){
+            for(auto a: adj[i]){
+                indegree[a]++;
             }
         }
-        return true;
+
+        for(int i = 0; i!=numCourses; i++){
+            if(indegree[i]==0) q.push(i);
+        }
+
+        int count = 0;
+
+        while(!q.empty()){
+            auto node = q.front();
+            count++;
+            q.pop();
+
+            for(auto i : adj[node]){
+                indegree[i]--;
+                if(indegree[i]==0) q.push(i);
+            }
+        }
+
+        if(numCourses==count)return true;
+        else return false;
     }
 };
