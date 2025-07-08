@@ -1,34 +1,34 @@
 class Solution {
 public:
-    bool solve(int i, int t, vector<int>& nums, int sm, vector<vector<int>>& dp) {
-        if (t == sm)
-            return true;
-        if (i >= nums.size() || t > sm)
-            return false;
+    bool helper(int indx, int n, vector<int>& nums, int target, vector<vector<int>> &dp){
+        if(target==0) return true;
+        if(indx==n) return false;
 
-        if (dp[i][t] != -1)
-            return dp[i][t];
+        if(dp[indx][target]!=-1) return dp[indx][target];
 
-        if (solve(i + 1, t + nums[i], nums, sm, dp))
-            return dp[i][t] = true;
+        bool take=false, notTake=false;
 
-        if (solve(i + 1, t, nums, sm, dp))
-            return dp[i][t] = true;
+        if(target>=nums[indx])
+        take = helper(indx+1, n, nums, target-nums[indx], dp);
+        
+        notTake = helper(indx+1, n, nums, target, dp);
 
-        return dp[i][t] = false;
+        return dp[indx][target] = (take || notTake);
     }
     bool canPartition(vector<int>& nums) {
-        int sm = 0;
-        for (auto i : nums)
-            sm += i;
-        if (sm % 2 != 0)
-            return false;
-        else {
-            sm = sm / 2;
-            int n = nums.size();
-            int maxSum = sm + 1;
-            vector<vector<int>> dp(n, vector<int>(maxSum, -1));
-            return solve(0, 0, nums, sm, dp);
+        int totalSum=0;
+
+
+        for(auto num: nums){
+            totalSum+=num;
         }
+
+        if(totalSum%2!=0) return false;
+
+        int n = nums.size();
+
+        vector<vector<int>> dp(n,vector<int>(20001, -1));
+
+        return helper(0, n, nums, totalSum/2, dp);
     }
 };
