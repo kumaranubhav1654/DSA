@@ -1,7 +1,7 @@
 class Solution {
 public:
     int helper(int indx, int target, vector<int> &nums, vector<vector<int>> &dp, int n, int offset){
-        if (target + offset < 0 || target + offset > 2 * offset) return 0; 
+        if (target + offset > 2 * offset) return 0; 
         if(indx==n){
             if(target == 0) return 1;
             return 0;
