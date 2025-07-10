@@ -2,39 +2,38 @@ class Solution {
 public:
     int countPaths(int n, vector<vector<int>>& roads) {
         int MOD = 1e9 + 7;
-        vector<vector<pair<int, long long>>>adj(n);
-        using P = pair<long long, int>;
-        priority_queue<P, vector<P>, greater<P>> pq;
-
+        vector<vector<pair<int, int>>>adj(n);
+        int countWays = 0;
+        vector<long long>dis(n, LLONG_MAX);
         vector<int>ways(n, 0);
-        vector<long long>time(n, LLONG_MAX);
 
         for(auto i : roads){
-            adj[i[0]].push_back({i[1], i[2]});
-            adj[i[1]].push_back({i[0], i[2]});
-        } 
+            adj[i[0]].push_back({i[2], i[1]});
+            adj[i[1]].push_back({i[2], i[0]});
+        }
 
-        pq.push({0,0});
-        time[0] = 0;
-        ways[0] = 1;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>>pq;
+
+        pq.push({0, 0});
+        dis[0]=0;
+        ways[0]=1;
 
         while(!pq.empty()){
-            long long parentTime = pq.top().first;
-            int des = pq.top().second;
+            auto [wt, src] = pq.top();
             pq.pop();
 
-            for(int i = 0; i!=adj[des].size(); i++){
-                auto [subDes, Time] = adj[des][i];
-                if( time[subDes] > (parentTime + Time)){
-                    pq.push({ parentTime + Time, subDes});
-                    ways[subDes] =  ways[des]; // replace not add.
-                    time[subDes] = parentTime + Time;
+            for(auto i : adj[src]){
+                auto [cwt, des] = i;
+                if(dis[des] > wt+cwt){
+                    ways[des] = ways[src];
+                    dis[des] = wt+cwt;
+                    pq.push({wt+cwt, des});
                 }
-                else if(time[subDes] == parentTime + Time){
-                    ways[subDes] =  (ways[subDes] + ways[des]) % MOD; // needs to be MOD here 
+                else if(dis[des] == wt+cwt){
+                    ways[des]= (ways[des] + ways[src])%MOD;
                 }
             }
         }
-        return ways[n-1]% MOD;
+        return ways[n-1];
     }
 };
