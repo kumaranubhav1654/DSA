@@ -1,40 +1,38 @@
 class Solution {
 public:
-    bool isValid(int i, int j, int m, int n) {
-        return ((i >= 0 && j >= 0) && (i < m && j < n));
+    bool isValid(int i, int j, int n, int m){
+        return ((i>=0 && j>=0)&& (i<n && j<m));
     }
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int m = heights.size(), n = heights[0].size();
-        int ans = INT_MAX;
-        vector<vector<int>> dist(m, vector<int>(n, INT_MAX));
-        using Node = pair<int, pair<int, int>>;
-        priority_queue<Node, vector<Node>, greater<Node>> pq;
+        int n = heights.size(), m = heights[0].size();
 
-        pq.push({0,{0,0}});
-        dist[0][0]=0;
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>,
+          greater<tuple<int, int, int>>>pq;
 
-        while(!pq.empty()){
-            auto [h, add] = pq.top();
+        vector<vector<int>>effort(n, vector<int>(m, INT_MAX));
+         
+        pq.push({0,0,0});
+
+         while(!pq.empty()){
+            auto [elevation, i , j] = pq.top();
             pq.pop();
 
-            int dx[] = {0, 0, 1, -1},
-            dy[] = { 1, -1, 0, 0};
+            if(i==n-1 && j==m-1) return elevation;
 
-            int i = add.first, j = add.second;
-            if (i == m - 1 && j == n - 1)
-                ans = min(ans, h);
-            for (int a = 0; a != 4; a++) {
-                int ni = i + dx[a], nj = j + dy[a];
-                if (isValid(ni, nj, m, n)){
-                int effort = max(abs(heights[i][j] - heights[ni][nj]), h);
-                    //cout<<ni<<" "<<nj<<" Dis"<<effort<<endl;
-                    if(effort < dist[ni][nj]){
-                    pq.push({effort, {ni, nj}});
-                    dist[ni][nj] = effort;
+            int dx[]={0,0,1,-1}, dy[]={1,-1,0,0};
+
+            for(int a = 0; a!=4; a++){
+                int newI = i+dx[a], newJ= j+dy[a];
+                if(isValid(newI, newJ, n, m)){
+                    int ele = max(elevation, abs(heights[newI][newJ]- heights[i][j]));
+                    if(effort[newI][newJ]>ele){
+                        pq.push({ele, newI, newJ});
+                        effort[newI][newJ] = ele;
                     }
                 }
             }
-        }
-        return ans;
+         }
+
+        return -1;
     }
 };
