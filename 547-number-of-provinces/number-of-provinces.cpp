@@ -1,25 +1,42 @@
 class Solution {
 public:
-    void dfs(vector<vector<int>>& isConnected, int i, vector<int>& vis, int n) {
-        for (int a = 0; a != n; a++) {
-            if (isConnected[i][a] == 1 && !vis[a]) {
-                vis[a] = 1;
-                dfs(isConnected, a, vis, n);
-            }
+vector<int>parent;
+vector<int>size;
+vector<int>rank;
+    void unionBySize(int u, int v){
+        int up = findUParent(u);
+        int vp = findUParent(v);
+
+        if(up==vp) return;
+        if(size[up]< size[vp]){
+            parent[up] = vp;
+            size[vp]+=size[up];
         }
+        else{
+            parent[vp] = up;
+            size[up]+=size[vp];
+        }
+    }
+    int findUParent(int node){
+        if(parent[node]==node) return node;
+        return parent[node] = findUParent( parent[node]);
     }
     int findCircleNum(vector<vector<int>>& isConnected) {
         int n = isConnected.size();
-        vector<int> vis(n, 0);
-        int count = 0;
+        int ans = 0;
+        size.resize(n, 1);
+        parent.resize(n);
+        for(int i = 0; i!=n; i++) parent[i] = i;
 
-        for (int i = 0; i != n; i++) {
-            if (!vis[i]) {
-                vis[i] = 1;
-                count++;
-                dfs(isConnected, i, vis, n);
+        for(int i = 0; i!=n; i++){
+            for(int j = 0; j!=n; j++){
+                if(isConnected[i][j]==1) unionBySize(i, j);
             }
         }
-        return count;
+        for(int i = 0; i!=n; i++){
+            if(parent[i]==i) ans++;
+        }
+
+        return ans;
     }
 };
