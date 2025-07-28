@@ -1,14 +1,14 @@
 class Solution {
 public:
     int ans = 0;
-    void helper(int indx, int xr, vector<int>& nums, int mx){
+    void helper(int indx, int xr, vector<int>& nums, int maxOr){
         if(indx==nums.size()){
-            if(xr==mx)ans++;
+            if(xr==maxOr)ans++;
             return;
         }
         
-        helper(indx+1, xr|nums[indx], nums, mx);
-        helper(indx+1, xr, nums, mx);
+        helper(indx+1, xr|nums[indx], nums, maxOr);
+        helper(indx+1, xr, nums, maxOr);
     }
     int countMaxOrSubsets(vector<int>& nums) {
         int maxOr = 0;
