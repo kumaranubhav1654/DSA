@@ -22,7 +22,7 @@ public:
         }
         int n = merge.size() / 2;
 
-        nth_element(merge.begin(), merge.begin() + n, merge.end());
+        sort(merge.begin(), merge.end());
 
         long long sum = 0;
         for (int i = 0; i < n; ++i) {
