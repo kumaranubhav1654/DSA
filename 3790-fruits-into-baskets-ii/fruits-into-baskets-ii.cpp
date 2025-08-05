@@ -1,7 +1,7 @@
 class Solution {
 public:
     int numOfUnplacedFruits(vector<int>& fruits, vector<int>& baskets) {
-        int ans = 0, mx = INT_MIN;
+        int ans = 0;
         for(auto fruit : fruits){
             int j = 0;
             for(j = 0; j!=fruits.size(); j++){
