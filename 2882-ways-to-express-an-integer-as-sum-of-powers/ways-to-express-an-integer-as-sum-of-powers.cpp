@@ -16,7 +16,7 @@ public:
         int take = helper(num - 1, n - tmp, x, dp);
         int notTake = helper(num - 1, n, x, dp);
 
-        dp[num][n] = ((long long)take + notTake) % MOD;
+        dp[num][n] = (take + notTake) % MOD;
         return dp[num][n];
     }
     int numberOfWays(int n, int x) {
