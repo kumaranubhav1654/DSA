@@ -12,7 +12,6 @@ public:
         if (dp[num][n] != -1)
             return dp[num][n];
         int tmp = pow(num, x);
-        // cout<<" tmp "<<tmp<<" "<<n;
 
         int take = helper(num - 1, n - tmp, x, dp);
         int notTake = helper(num - 1, n, x, dp);
@@ -23,7 +22,6 @@ public:
     int numberOfWays(int n, int x) {
         int ans = 0, tmp = n;
         int num = ceil(pow(tmp, 1.0 / x));
-        // cout<<"NUM "<<num<<endl;
         if (num <= 1)
             return 1;
         vector<vector<int>> dp(num + 1, vector<int>(n + 1, -1));
