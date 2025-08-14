@@ -5,9 +5,9 @@ public:
         tmp = num[0];
 
         for(int i = 1; i!=num.length(); i++){
-            if(tmp[0]==num[i]){
+            if(tmp[0]==num[i] && (!ans.length() || tmp[0]>ans[0])){
                 tmp+=num[i];
-                if(tmp.length()==3 && (!ans.length() || tmp[0]>ans[0])) ans=tmp;
+                if(tmp.length()==3) ans=tmp;
             }
             else
             tmp=num[i];
