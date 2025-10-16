@@ -8,7 +8,7 @@ public:
             m[tmp]++;
         }
 
-        for (int i = 0; i != nums.size()+10; i++) {
+        for (int i = 0; i != nums.size()+1; i++) {
             int t = i % value;
             if (m[t]!=0) {
                 m[t]--;
