@@ -1,23 +1,17 @@
 class Solution {
 public:
-    int helper(int indx, int amount, vector<int>& coins, vector<vector<int>> &dp, int n){
-        if(indx==n){
-            if(!amount) return 1;
-            return 0;
-        }
+    int countWays(int amount, vector<int>& coins, int indx, vector<vector<int>> &dp){
+        if(amount==0) return 1;
+        else if(amount<0 || indx>=coins.size()) return 0;
+        if (dp[indx][amount] != -1) return dp[indx][amount];
+        
+        int skip = countWays(amount, coins, indx + 1, dp);
+        int take = countWays(amount - coins[indx], coins, indx, dp);
 
-        if(dp[indx][amount]!=-1) return dp[indx][amount];
-
-        int take = 0;
-        int notTake = helper(indx+1, amount, coins, dp, n);
-        if(amount>= coins[indx])
-        take = helper(indx, amount-coins[indx], coins, dp, n);
-
-        return dp[indx][amount] = take+notTake;
+        return dp[indx][amount] = skip + take;
     }
     int change(int amount, vector<int>& coins) {
-        int n = coins.size();
-        vector<vector<int>>dp(n, vector<int>(amount+1, -1));
-        return helper(0, amount, coins, dp, n);
+        vector<vector<int>>dp(coins.size(), vector<int>(amount+1, -1));
+        return countWays(amount, coins, 0, dp);
     }
 };
