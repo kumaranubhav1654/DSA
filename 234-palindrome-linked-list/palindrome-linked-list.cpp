@@ -11,42 +11,32 @@
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        int count = 0;
-        ListNode* tmp = head;
+        if(!head || !head->next) return true;
+
+        ListNode* mid = head;
+        ListNode* end = head;
         
-        while(tmp){
-            count++;
-            tmp = tmp->next;
+        while(end && end->next){
+            end = end->next->next;
+            mid = mid->next;
         }
 
-        if(count <= 1) return true;
+        ListNode* curr = mid->next;
+        mid->next = NULL;
 
-        int tmpCount = count/2;
-        if(count%2!=0) tmpCount++;
-
-        tmp = head;
-
-        while(tmpCount--){
-            tmp = tmp->next;
+        while(curr){
+            ListNode* next = curr->next;
+            curr->next = mid;
+            mid = curr;
+            curr = next;
         }
 
-        ListNode* tmp2 = tmp->next;
-        tmp->next = NULL;
+        curr = head;
 
-        while(tmp2){
-            ListNode* tmp3 = tmp2->next;
-            tmp2->next = tmp;
-            tmp = tmp2;
-            tmp2 = tmp3;
-        }
-
-        tmpCount = count/2;
-        tmp2 = head;
-
-        while(tmpCount--){
-            if(tmp->val!=tmp2->val) return false;
-            tmp=tmp->next;
-            tmp2=tmp2->next;
+        while(mid){
+            if(mid->val!=curr->val) return false;
+            mid=mid->next;
+            curr=curr->next;
         }
 
         return true;
